@@ -6,6 +6,7 @@ pass two numbers to perform this operation.
 Calculator
 
 arithmaticOps(){
+  	echo "Number of arguments passed: $#"
 	numb1=$1
 	numb2=$2
 	sum=$((numb1+numb2))
