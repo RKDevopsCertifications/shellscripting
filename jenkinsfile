@@ -12,7 +12,14 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing...'
-                // Add your test steps here
+                def shellScripts = sh(script: 'ls *.sh', returnStdout: true).trim().split('\n')
+                    
+                    // Execute each shell script
+                    for (script in shellScripts) {
+                        echo "Running ${script}..."
+                        sh "chmod +x ${script}"
+                        sh "./${script}"
+                    }
             }
         }
         stage('Deploy') {
