@@ -1,27 +1,36 @@
 pipeline {
-    agent{
+    agent {
         label "jenkins1"
     }
     stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code...'
+                git branch: 'main', url: 'https://github.com/RKDevopsCertifications/shellscripting.git'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building...'
-                git branch: 'main', url: 'https://github.com/RKDevopsCertifications/shellscripting.git'
+                // Add any build steps here
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing...'
-                def shellScripts = sh(script: 'ls *.sh', returnStdout: true).trim().split('\n')
-                    
+
+                script {
+                    // List all shell scripts in the repository
+                    def shellScripts = sh(script: 'ls *.sh', returnStdout: true).trim().split('\n')
                     // Execute each shell script
                     for (script in shellScripts) {
                         echo "Running ${script}..."
                         sh "chmod +x ${script}"
                         sh "./${script}"
                     }
+                }
             }
-        }
+         }
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
