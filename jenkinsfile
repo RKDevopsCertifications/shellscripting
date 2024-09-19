@@ -18,20 +18,19 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing...'
+
                 script {
                     // List all shell scripts in the repository
                     def shellScripts = sh(script: 'ls *.sh', returnStdout: true).trim().split('\n')
-                    
                     // Execute each shell script
                     for (script in shellScripts) {
                         echo "Running ${script}..."
                         sh "chmod +x ${script}"
                         sh "./${script}"
-                        echo "Finished running ${script}"
                     }
                 }
             }
-        }
+         }
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
